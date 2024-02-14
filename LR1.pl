@@ -119,7 +119,7 @@ uncle(X):-parent(Z,X), man(Z), parent(S,Z), man(S), parent(S,Y), man(Y), not(man
 %дописать 3 задание с функциями (это нужно по условию!!!!)
 
 
-
+%номер4
 
 
 main :-
@@ -249,6 +249,197 @@ fault(paper) :-
     problem(out_of_paper).
 
 query(Prompt) :-
+    (   asked(Prompt, Reply) -> true
+    ;   nl, write(Prompt), write(' (y/n)? '),
+        read(X),(X = y -> Reply = y ; Reply = n),
+	assert(asked(Prompt, Reply))
+    ),
+    Reply = y.
+
+
+%номер5 фильмы 
+
+
+% 1) Вам нравятся камедии
+% вы смотрели фильм "Зачётный препод"
+% вы смотрели фильм "Супер нянь"
+% вы смотрели фильм "Очень страшное кино"
+% вы смотрели фильм "Такси"
+
+% 2) Вам нравятся хорроры
+% вы смотрели фильм "Звонок"
+% вы смотрели фильм "Монахиня"
+% вы смотрели фильм "Пила"
+% вы смотрели фильм "Астрал"
+
+% 3) Вам нравятся аниме
+% вы смотрели фильм по "Ванпис"
+% вы смотрели фильм "Унесённые призраками"
+% вы смотрели фильм "Ходячий замок"
+% вы смотрели фильм "Мери и ведьмин цветок"
+
+% 4) Вам нравятся боевики 
+% вы смотрели фильм "Дедпул"
+% вы смотрели фильм "Джон Уик"
+% вы смотрели фильм "Телохранитель киллера"
+% вы смотрели фильм "Мой парень - киллер"
+
+% 5) Вам нравятся фантастика 
+% вы смотрели фильм "Валериан и город тысячи планет"
+% вы смотрели фильм "Аватар"
+% вы смотрели фильм "Пятый элемент"
+% вы смотрели фильм "Назад в будущее"
+
+% 6) Вам нравятся мелодрама  
+% вы смотрели фильм "Титаник"
+% вы смотрели фильм "Предложение"
+% вы смотрели фильм "Правила съёма: Метод Хитча"
+% вы смотрели фильм "Стажер"
+
+
+
+
+
+
+
+%номер6  
+
+
+
+movie :-
+    retractall(asked(_,_)),
+    genre(Films),
+    !,
+    nl,
+    write('Your favorite genre '), write(Films), write(.), nl.
+movie :-
+    nl,
+    write('You dont have a favorite genre'), nl.
+
+%1
+
+films(super_n) :-
+    desc('Have you seen the movie "Super Nanny"').
+
+films(very_scary) :-
+    desc('Have you seen the movie "Scary Movie"').
+
+films(taxi) :-
+    desc('Have you seen the movie "Taxi"').
+
+films(test_p) :-
+    desc('Have you watched the movie "Test Teacher"?').
+
+%2
+
+films(the_ring) :-
+    desc('Have you seen the movie "The Ring"').
+
+films(the_nun) :-
+    desc('Have you seen the movie "The Nun"').
+
+films(saw) :-
+    desc('Have you watched the movie "Saw"').
+
+films(insidious) :-
+    desc('Have you watched the movie "Insidious"').
+
+%3
+
+films(one_piece) :-
+    desc('Have you seen the movie based on "One Piece"').
+
+films(spirited_away) :-
+    desc('Have you seen the movie "Spirited Away"').
+
+films(howls_moving) :-
+    desc('Have you watched the movie "Howls Moving Castle"').
+
+films(mary) :-
+    desc('Have you seen the movie "Mary and the Witchs Flower"').
+
+%4
+
+films(deadpool) :-
+    desc('Have you watched the movie "Deadpool"').
+
+films(john_wick) :-
+    desc('Have you watched the movie "John Wick"').
+
+films(the_hitmans) :-
+    desc('Have you seen the movie "The Hitmans Bodyguard"').
+
+films(my_boyfriend) :-
+    desc('Have you watched the movie "My Boyfriend is a Hitman"').
+
+%5
+
+films(valerian) :-
+    desc('Have you seen the movie "Valerian and the City of a Thousand Planets"').
+
+films(avatar) :-
+    desc('Have you watched the movie "Avatar"').
+
+films(the_fifth) :-
+    desc('Have you seen the movie "The Fifth Element"').
+
+films(back_to_the_future) :-
+    desc('Have you seen the movie "Back to the Future"').
+
+%6
+
+films(titanic) :-
+    desc('Have you seen the movie "Titanic"').
+
+films(the_proposal) :-
+    desc('Have you seen the movie "The Proposal"').
+
+films(rules) :-
+    desc('Have you watched the film "Rules of Filming: The Hitch Method"').
+
+films(the_intern) :-
+    desc('Have you seen the movie "The Intern"').
+
+
+
+genre(comedy) :-
+    films(super_n),
+    films(very_scary),
+    films(taxi),
+    films(test_p).
+
+genre(horror) :-
+    films(the_ring),
+    films(the_nun),
+    films(saw),
+    films(insidious).
+
+genre(anime) :-
+    films(one_piece),
+    films(spirited_away),
+    films(howls_moving),
+    films(mary).
+
+genre(thriller) :-
+    films(deadpool),
+    films(john_wick),
+    films(the_hitmans),
+    films(my_boyfriend).
+
+genre(fantastic) :-
+    films(valerian),
+    films(avatar),
+    films(the_fifth),
+    films(back_to_the_future).
+
+genre(melodrama) :-
+    films(titanic),
+    films(the_proposal),
+    films(rules),
+    films(the_intern).
+
+
+desc(Prompt) :-
     (   asked(Prompt, Reply) -> true
     ;   nl, write(Prompt), write(' (y/n)? '),
         read(X),(X = y -> Reply = y ; Reply = n),
