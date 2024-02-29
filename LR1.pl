@@ -464,4 +464,169 @@ desc(Prompt) :-
 
 %номер7  
 
+%Модифицировать «Акинатор», реализовав возможность выдачи ответа
+%пользователю в случае неполного ответа на вопросы, например для лишь объект X имеет
+%текущую картину ответа на 5 вопросов, значит 6 и 7 вопрос задавать необязательно.
 
+movie :-
+    retractall(asked(_,_)),
+    genre(Films),
+    !,
+    nl,
+    write('Your favorite genre '), write(Films), write(.), nl.
+movie :-
+    nl,
+    write('You dont have a favorite genre'), nl.
+
+%1
+
+films(super_n) :-
+    desc('Have you seen the movie "Super Nanny"').
+
+films(very_scary) :-
+    desc('Have you seen the movie "Scary Movie"').
+
+films(taxi) :-
+    desc('Have you seen the movie "Taxi"').
+
+films(test_p) :-
+    desc('Have you watched the movie "Test Teacher"?').
+
+%2
+
+films(the_ring) :-
+    desc('Have you seen the movie "The Ring"').
+
+films(the_nun) :-
+    desc('Have you seen the movie "The Nun"').
+
+films(saw) :-
+    desc('Have you watched the movie "Saw"').
+
+films(insidious) :-
+    desc('Have you watched the movie "Insidious"').
+
+%3
+
+films(one_piece) :-
+    desc('Have you seen the movie based on "One Piece"').
+
+films(spirited_away) :-
+    desc('Have you seen the movie "Spirited Away"').
+
+films(howls_moving) :-
+    desc('Have you watched the movie "Howls Moving Castle"').
+
+films(mary) :-
+    desc('Have you seen the movie "Mary and the Witchs Flower"').
+
+%4
+
+films(deadpool) :-
+    desc('Have you watched the movie "Deadpool"').
+
+films(john_wick) :-
+    desc('Have you watched the movie "John Wick"').
+
+films(the_hitmans) :-
+    desc('Have you seen the movie "The Hitmans Bodyguard"').
+
+films(my_boyfriend) :-
+    desc('Have you watched the movie "My Boyfriend is a Hitman"').
+
+%5
+
+films(valerian) :-
+    desc('Have you seen the movie "Valerian and the City of a Thousand Planets"').
+
+films(avatar) :-
+    desc('Have you watched the movie "Avatar"').
+
+films(the_fifth) :-
+    desc('Have you seen the movie "The Fifth Element"').
+
+films(back_to_the_future) :-
+    desc('Have you seen the movie "Back to the Future"').
+
+%6
+
+films(titanic) :-
+    desc('Have you seen the movie "Titanic"').
+
+films(the_proposal) :-
+    desc('Have you seen the movie "The Proposal"').
+
+films(rules) :-
+    desc('Have you watched the film "Rules of Filming: The Hitch Method"').
+
+films(the_intern) :-
+    desc('Have you seen the movie "The Intern"').
+
+
+
+genre(comedy) :-
+    films(super_n),
+    films(very_scary),
+    films(taxi),
+    films(test_p);
+    films(deadpool),
+    films(very_scary),
+    films(my_boyfriend).
+
+genre(horror) :-
+    films(the_ring),
+    films(the_nun),
+    films(saw),
+    films(insidious);
+    films(very_scary),
+    films(john_wick),
+    films(saw),
+    films(titanic).
+
+genre(anime) :-
+    films(one_piece),
+    films(spirited_away);
+    films(howls_moving),
+    films(mary).
+
+genre(thriller) :-
+    films(deadpool),
+    films(john_wick),
+    films(the_hitmans);
+    films(my_boyfriend),
+    films(valerian),
+    films(avatar).
+
+genre(fantastic) :-
+    films(valerian),
+    films(avatar),
+    films(the_fifth),
+    films(back_to_the_future);
+    films(avatar),
+    films(very_scary),
+    films(deadpool).
+
+genre(melodrama) :-
+    films(titanic),
+    films(the_proposal),
+    films(rules),
+    films(the_intern);
+    films(titanic),
+    films(valerian),
+    films(my_boyfriend).
+
+
+desc(Prompt) :-
+    (   asked(Prompt, Reply) -> true
+    ;   nl, write(Prompt), write(' (y/n)? '),
+        read(X),(X = y -> Reply = y ; Reply = n),
+	assert(asked(Prompt, Reply))
+    ),
+    Reply = y.
+
+
+%Реализовать возможность разных вопросов для разных объектов, например, 6
+%вопросов одинаковых, но, чтобы отличить объект 18 от объекта19 нужен вопрос 7, а чтобы
+%отличить объект20 от объекта21, нужен вопрос 8, а остальные объекты отличаются друг от
+%друга на основании первых 6 вопросов. Структура должна быть подобрана исходя из
+%предметной области.
