@@ -630,3 +630,195 @@ desc(Prompt) :-
 %отличить объект20 от объекта21, нужен вопрос 8, а остальные объекты отличаются друг от
 %друга на основании первых 6 вопросов. Структура должна быть подобрана исходя из
 %предметной области.
+
+
+%1)Вы загадали фильм Дедепулл
+% главный герой в красном костюме 
+% у главного героя есть катана 
+% актер играющий главного героя это Райан Рейнольдс 
+% один из жанров этого фильма это боевик 
+
+%2)Вы загадали фильм Главный герой 
+% в этом фильме есть супер-способности 
+% в этом фильме есть другие миры
+% один из главных героев это Джоди Комер 
+% один из жанров этого фильма это мелодрама 
+
+%3)Вы загадали фильм Предложение 
+% один из жанров этого фильма это мелодрама 
+% действия проиходят в реальной мире 
+% главный герой работает в книжном издательстве
+% главный герой собирается жениться 
+
+%4)Вы загадали фильм телохранитель киллера
+% у главного героя опастная работа 
+% один из жанров этого фильма это камедия
+% главный герой защищает человека 
+% актер играющий главного героя это Райан Рейнольдс 
+
+%5)Вы загадали фильм Супер нянь
+%главный герой подает в неприятности 
+%в фильме показывается компания друзей
+%один из жанров этого фильма это камедия
+% актер играющий главного героя это Филлип Лашо
+
+%6)Вы загадали фильм Зачётный препод
+% главный герой нарушал закон 
+% главный герой работает в школе 
+% главный герой ищёт клад 
+% актер играющий главного героя это Элиаш М'Барек
+
+movie :-
+    retractall(asked(_,_)),
+    genre(Films),
+    !,
+    nl,
+    write('You wished for a movie '), write(Films), write(.), nl.
+movie :-
+    nl,
+    write('We could not guess the movie'), nl.
+
+%1
+
+films(red) :-
+    desc('main character in a red suit').
+
+films(katana) :-
+    desc('the main character has a katana').
+
+films(ryan) :-
+    desc('the actor playing the main character is Ryan Reynolds').
+
+films(action) :-
+    desc('one of the genres of this film is action').
+
+%2
+
+films(super) :-
+    desc('There are super powers in this movie').
+
+films(worlds) :-
+    desc('there are other worlds in this movie').
+
+films(jodie) :-
+    desc('one of the main characters is Jodie Comer').
+
+films(melodrama) :-
+    desc('one of the genres of this film is melodrama').
+
+%3
+
+films(alaska) :-
+    desc('takes place in Alaska').
+
+films(house) :-
+    desc('the main character works in a book publishing house').
+
+films(sandra) :-
+    desc('one of the main characters is Sandra Bullock').
+
+films(married) :-
+    desc('the main character is going to get married').
+
+%4
+
+films(job) :-
+    desc('The main character has a dangerous job').
+
+films(comedy) :-
+    desc('one of the genres of this film is comedy').
+
+films(person) :-
+    desc('the main character protects a person').
+
+films(samuel) :-
+    desc('the actor playing the main character is Samuel').
+
+%5
+
+films(trouble) :-
+    desc('the main character gets into trouble').
+
+films(friends) :-
+    desc('the film shows the company of friends').
+
+films(phillip) :-
+    desc('the actor playing the main character is Phillip Lachaud').
+
+%6
+
+films(law) :-
+    desc('the main character broke the law').
+
+films(school) :-
+    desc('the main character works at school').
+
+films(treasure) :-
+    desc('the main character is looking for treasure').
+
+films(barek) :-
+    desc('the actor playing the main character is Elias M,Barek').
+
+
+
+genre(deadpool) :-
+    films(super),
+    films(katana),
+    films(red),
+    films(action);
+    
+    films(trouble),
+    films(job),
+    films(ryan),
+    films(law).
+
+genre(main_character) :-
+    films(super),
+    films(worlds),
+    films(jodie),
+    films(melodrama);
+
+    films(action),
+    films(trouble),
+    films(ryan),
+    films(jodie).
+
+genre(offer) :- 
+    films(alaska),
+    films(house);
+    films(sandra),  
+    films(married).
+
+genre(hitman_is_bodyguard) :-
+    films(job),
+    films(comedy),
+    films(person);
+    films(samuel),
+    films(action),
+    films(law).
+
+genre(super_nannies) :-
+    films(trouble),
+    films(friends),
+    films(phillip);
+
+    films(back_to_the_future),
+    films(law),
+    films(comedy),
+
+genre(honors_teacher) :-
+    films(law),
+    films(school),
+    films(treasure);
+    films(barek),
+
+    films(comedy),
+    films(trouble),
+
+desc(Prompt) :-
+    (   asked(Prompt, Reply) -> true
+    ;   nl, write(Prompt), write(' (y/n)? '),
+        read(X),(X = y -> Reply = y ; Reply = n),
+	assert(asked(Prompt, Reply))
+    ),
+    Reply = y.
