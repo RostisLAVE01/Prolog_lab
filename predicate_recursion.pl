@@ -113,25 +113,30 @@ nod(X,F,O):- (X > 0, F > 0 -> (X > F -> X1 is X mod F, F1 = F; F1 is F mod X, X1
  
 %1.11 Дан целочисленный массив, в котором лишь один элемент отличается от
 %остальных. Необходимо найти значение этого элемента.
+%imposter(+[X],-E).
+imposter([X], X):-!. 
+imposter([], E):-!.
+imposter([Y, X, X2 | T], Y):- Y \= X, X = X2,!,E is Y.
 
-imposter([Otv], Otv,Prov):-!.
-imposter([Head|Tail], Otv):- imposter([Head|Tail], Otv,Prov).
-imposter([Head|Tail], Otv,Prov):-
-   imposter(Tail, Elem,Prov),
-   Elem = Head, Elem = Prov -> Otv = Elem, Prov = Elem; Otv = Head, Prov = Elem.
+imposter([X, X | T], E) :- % когда они одинаковые
+   imposter([X | T], E). 
+
+imposter([X, Y | T], E) :- 
+                X \= Y,!, % вот это \= будет значит если 2 эл. не равны , то выдаст true: 5\=11 -> true
+                E is Y.
 
 
 %1.14 Дан целочисленный массив и интервал a..b. Необходимо найти количество
 %элементов в этом интервале.
 
-
- kol([],Sum,Sum):-!.
- kol([Head|Tail],Sum):- kol([Head|Tail],Sum,0).
- kol([Head|Tail],Sum,K):- K1 is K + 1, kol(Tail,Sum,K1).
+%kol(+[X],-Sum).
+kol([],Sum,Sum):-!.
+kol([Head|Tail],Sum):- kol([Head|Tail],Sum,0).
+kol([Head|Tail],Sum,K):- K1 is K + 1, kol(Tail,Sum,K1).
 
 %1.25 Дан целочисленный массив и интервал a..b. Необходимо найти максимальный
 %из элементов в этом интервале.
 
-
- max_el([Max_e],Max_e):-!.
- max_el([Head|Tail],Max_e):- max_el(Tail,Max_e2), Max_e2 > Head -> Max_e = Max_e2; Max_e = Head.
+%max_el(+[X],-Max_e).
+max_el([Max_e],Max_e):-!.
+max_el([Head|Tail],Max_e):- max_el(Tail,Max_e2), Max_e2 > Head -> Max_e = Max_e2; Max_e = Head.
