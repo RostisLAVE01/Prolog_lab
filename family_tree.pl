@@ -91,7 +91,7 @@ b_s(X):- parent(Z,X), man(Z), parent(Z,Y), not(man(X) = man(Y); woman(X) = woman
 %Построить предикат sister(X, Y), который проверяет, является ли X сестрой Y.
 %Построить предикат sisters(X), который выводит всех сестер X.
 
-%father(+X,+Y)
+%father(?X,+Y)
 father(X,Y):- parent(X,Y),  man(X).
 %father(+X)
 father(X):- father(Y,X), print(Y), nl, fail.
