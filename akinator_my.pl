@@ -494,6 +494,10 @@ films(barek) :-
 
 genre(deadpool) :-
     films(super),
+    films(red),
+    films(katana);
+
+    films(super),
     films(katana),
     films(red),
     films(action);
@@ -535,7 +539,7 @@ genre(super_nannies) :-
 
     films(back_to_the_future),
     films(law),
-    films(comedy),
+    films(comedy).
 
 genre(honors_teacher) :-
     films(law),
@@ -544,7 +548,7 @@ genre(honors_teacher) :-
     films(barek),
 
     films(comedy),
-    films(trouble),
+    films(trouble).
 
 desc(Prompt) :-
     (   asked(Prompt, Reply) -> true
