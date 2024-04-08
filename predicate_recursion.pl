@@ -140,3 +140,16 @@ kol([Head|Tail],Sum,K):- K1 is K + 1, kol(Tail,Sum,K1).
 %max_el(+[X],-Max_e).
 max_el([Max_e],Max_e):-!.
 max_el([Head|Tail],Max_e):- max_el(Tail,Max_e2), Max_e2 > Head -> Max_e = Max_e2; Max_e = Head.
+
+
+
+
+
+%Найти количество делителей числа, не делящихся на 3
+%Найти сумму всех делителей числа, взаимно простых с суммой цифр числа и не
+%взаимно простых с произведением цифр числа.
+
+%del(+F,-O)
+del(F,O):-del(F,O,0,1,0).
+del(F,O,Sum,Q,0):- (F =< Q -> RR2 = 1; RR2 = 0), T is F mod Q, J is Q mod 3,(T == 0, J > 0 -> Sum2 is Sum + Q, Q2 is Q + 1; Sum2 is Sum, Q2 is Q + 1), del(F,O,Sum2,Q2,RR2).
+del(F,Sum,Sum,Q,1):- !.
