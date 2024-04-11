@@ -153,3 +153,54 @@ max_el([Head|Tail],Max_e):- max_el(Tail,Max_e2), Max_e2 > Head -> Max_e = Max_e2
 del(F,O):-del(F,O,0,1,0).
 del(F,O,Sum,Q,0):- (F =< Q -> RR2 = 1; RR2 = 0), T is F mod Q, J is Q mod 3,(T == 0, J > 0 -> Sum2 is Sum + Q, Q2 is Q + 1; Sum2 is Sum, Q2 is Q + 1), del(F,O,Sum2,Q2,RR2).
 del(F,Sum,Sum,Q,1):- !.
+
+
+
+%Задачи 41, 48, 53, 59
+
+% 1.41 Дан целочисленный массив. Найти среднее арифметическое модулей его элементов.
+
+sred([H|T],O):- sred([H|T],O,0,0).
+sred([H|T],O,Sum,K):- K2 is K + 1, Sum2 is Sum + H, sred(T,O,Sum2,K2).
+sred([],O,Sum,K):- O is Sum div K,!. 
+
+
+
+%1.48. Для введенного списка построить список с номерами элемента, который повторяется наибольшее число раз.
+
+%number(+[H|T],+N,-Num):
+number([],N,N):- !.
+number([H|T],N,Num):- (N < H -> N2 is H; N2 is N), number(T,N2,Num).
+
+%places(+[H|T],-Otv)
+places([],O,G,F,O):- !.
+places([H|T],Otv):- places([H|T],Otv,0,0,[]).
+places([H|T],Otv,G,F,O):- number([H|T],F,N), F1 = N, (H == N -> J2 is G + 1, append([J2],O,O2); J2 is G + 1, append([],O,O2)), places(T,Otv,J2,F1,O2).
+
+
+
+
+
+
+
+
+elem([],O):- !.
+elem([H|T],O):- count([H|T],H,Count), length(O,Length), append([Count],O,O2), elem(T,O2).
+
+
+popa([],F,F):- !.
+popa([H|T],O):- popa([H|T],O,0).
+popa([H|T],O,G):- number([H|T],0,N),length(O,Length), append([N],O,O2), popa(T,O2,J2).
+
+count([],Value, 0):-!.
+count([Head|Tail], Value, Count):- Head = Value, !, count(Tail, Value, TailCount), Count is TailCount + 1.
+count([Head|Tail], Value, Count):-count(Tail, Value, TailCount),Count is TailCount.
+
+
+member(Elem, [Elem|Tail]).
+member(Elem, [Head|Tail]):-member(Elem, Tail).
+
+
+list_to_set([], []):-!.
+list_to_set([Head|Tail], [Head|TailSet]):- NOT(member(Head, Tail)), !, list_to_set(Tail, TailSet).
+list_to_set([Head|Tail], TailSet):- list_to_set(Tail, TailSet).
