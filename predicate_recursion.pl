@@ -144,7 +144,7 @@ max_el([Head|Tail],Max_e):- max_el(Tail,Max_e2), Max_e2 > Head -> Max_e = Max_e2
 
 
 
-
+%Задача 5
 %Найти количество делителей числа, не делящихся на 3
 %Найти сумму всех делителей числа, взаимно простых с суммой цифр числа и не
 %взаимно простых с произведением цифр числа.
@@ -156,6 +156,39 @@ del(F,Sum,Sum,Q,1):- !.
 
 
 
+
+%Задание 6
+%Пентагональные числа генерируются по формуле
+%P (n)= n (3 n −1) / 2 Первые десять пятиугольных чисел:
+%1, 5, 12, 22, 35, 51, 70, 92, 117, 145, ...
+%Видно, что P(4) + P(7) = 22 + 70 = 92 = P 8 . Однако их различие 70 - 22 = 48 не является
+%пятиугольным. Найдите пару пятиугольных чисел P j и P k , меньших числа 1000000 для
+%которых их сумма и разность пятиугольны и D = | P k - P j | сведено к минимуму; какова
+%стоимость D?
+%Задача должна быть решена без использования списков.
+
+
+pentog(P,Otvet):-pentog(P,Otvet,1,2,ZZ,Zaz,0,0,1).
+pentog(P,Otvet,F,K,ZZ,Zaz,Kon,Pan,Prov):- form(F,Otv), form(K,Pop), ZZ is Otv + Pop, Zaz is Pop - Otv, form(Prov,Dobbi),
+(Dobbi == Zaz, ZZ < 999999 -> Pan1 = 1; Prov2 is Prov + 1),
+(Dobbi == ZZ, ZZ < 999999 -> Kon1 = 1; Prov2 is Prov + 1),
+(Dobbi > ZZ + 1 -> K2 is K + 1, F2 is F, Prov3 is 1; K2 is K, F2 is F, Prov3 is Prov2),
+(ZZ > 999999 -> K1 is F + 2, F1 is F + 1, Prov1 is 1; K1 is K2, F1 is F2, Prov1 is Prov3),
+pentog(P,Otvet,F1,K1,ZZ1,Zaz1,Kon1,Pan1,Prov1).
+pentog(P,Otvet,P,Otvet,ZZ,Zaz,1,1,Prov):- !.
+
+form(F, O) :- O is F * (3 * F - 1) / 2.
+
+
+
+
+
+
+
+
+
+
+%Задача 7
 %Задачи 41, 48, 53, 59
 
 % 1.41 Дан целочисленный массив. Найти среднее арифметическое модулей его элементов.
@@ -187,11 +220,6 @@ places([H|T],Otv,G,F,O):- number([H|T],F,N), F1 = N, (H == N -> J2 is G + 1, app
 elem([],O):- !.
 elem([H|T],O):- count([H|T],H,Count), length(O,Length), append([Count],O,O2), elem(T,O2).
 
-
-popa([],F,F):- !.
-popa([H|T],O):- popa([H|T],O,0).
-popa([H|T],O,G):- number([H|T],0,N),length(O,Length), append([N],O,O2), popa(T,O2,J2).
-
 count([],Value, 0):-!.
 count([Head|Tail], Value, Count):- Head = Value, !, count(Tail, Value, TailCount), Count is TailCount + 1.
 count([Head|Tail], Value, Count):-count(Tail, Value, TailCount),Count is TailCount.
@@ -204,3 +232,35 @@ member(Elem, [Head|Tail]):-member(Elem, Tail).
 list_to_set([], []):-!.
 list_to_set([Head|Tail], [Head|TailSet]):- NOT(member(Head, Tail)), !, list_to_set(Tail, TailSet).
 list_to_set([Head|Tail], TailSet):- list_to_set(Tail, TailSet).
+
+
+
+
+
+
+
+
+
+%1.53. Для введенного списка построить новый с элементами, большими, чем среднее
+%арифметическое списка, но меньшими, чем его максимальное значение.
+
+tally([H|T],O):- tally([H|T],O,H,0,[]).
+tally([H|T],O,K,Ch,Perl):- sred([H|T],Otv), number([H|T],H,N), K1 = N, (Otv > Ch -> Ch1 is Otv + 1;Ch1 is Ch + 1),(K1 > Ch1 -> append([Ch1],Perl,Perl1); Perl1 = Perl), ( K1 > Ch1 -> tally([H|T],O,K1,Ch1,Perl1); tally(T,O,K1,Ch1,Perl1)).
+tally([],O,K,Ch,O):- !.
+
+
+%1.59. Дан список. Построить новый список из квадратов неотрицательных чисел,
+%меньших 100 и встречающихся в массиве больше 2 раз.
+
+job([],O,O):- !.
+job([H|T],O):- job([H|T],O,[]).
+job([H|T],O,B):- count([H|T],H,Count), (Count > 2 -> int_pow(H, H, Pow), way([H|T],H,Otv), append([Pow],B,B2); way([H|T],H,Otv), append([],B,B2)), job(Otv,O,B2).
+
+% Pow = A^B
+int_pow(_, 0, 1):-!.
+int_pow(A, B, Pow):- B > 0, !, TailB is B - 1, int_pow(A, TailB, TailPow),Pow is TailPow * A.
+int_pow(A, B, Pow):- B < 0, !, TailB is B - 1, int_pow(A, TailB, TailPow), Pow is TailPow / A.
+
+way([],Zn,B,B):-!.
+way([H|T],Zn,B):-way([H|T],Zn,B,[]).
+way([H|T],Zn,B,XX):- (Zn == H -> append([],XX,XX2),Zn2 is Zn;append([H],XX,XX2), Zn2 is Zn), way(T,Zn2,B,XX2).
