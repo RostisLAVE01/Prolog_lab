@@ -177,11 +177,23 @@ pentog(P,Otvet,F,K,ZZ,Zaz,Kon,Pan,Prov):- form(F,Otv), form(K,Pop), ZZ is Otv + 
 pentog(P,Otvet,F1,K1,ZZ1,Zaz1,Kon1,Pan1,Prov1).
 pentog(P,Otvet,P,Otvet,ZZ,Zaz,1,1,Prov):- !.
 
-form(F, O) :- O is F * (3 * F - 1) / 2.
 
 
 
+form(F, O) :- O is F * (3 * F - 1) // 2.
 
+osnova(Ot) :- osnova(Ot, 1, 10000, 0, Summ).
+osnova(Ot, I, K, 1, Ot) :- !.
+osnova(Ot, I, K, Stop, Summ) :- I =< K, I1 is I + 1, shet(I1, I, O), 
+(nonvar(O) -> (nonvar(Summ) -> (O < Summ -> Summ1 = O ; Summ1 = Summ); Summ1 = O ); Summ1 = Summ), osnova(Ot, I1, K, Stop, Summ1).
+osnova(Ot, I, K, Stop, Summ) :- I > K, Stop = 1, Summ = Ot.
+
+shet(J, I, O) :- shet(J, I, O, 10000, Max).
+shet(J, I, O, D, Max) :- form(I, P), form(J, K), Z is P + K, F is abs(P - K), pen(Z,GG), pen(F,PP),
+    (GG > 0 -> (PP > 0 -> ( nonvar(Max) -> (F < Max -> Max1 = F, J1 = J + 1 ; Max1 = Max, J1 = J + 1);  Max1 = F ) ; Max1 = Max, J1 = J + 1) ; Max1 = Max, J1 = J + 1),
+    (J1 =< D -> shet(J1, I, O, D, Max1) ; O = Max1).
+
+pen(N, O) :- K1 is 1 + 24 * N, SQ is K1 ** 0.5, Z is (1 + SQ) / 6, (integer(Z) -> O = Z ; O = 0).
 
 
 
