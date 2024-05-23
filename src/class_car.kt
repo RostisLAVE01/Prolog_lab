@@ -1,7 +1,7 @@
 import java.util.regex.Pattern
 import java.util.Date
 
-class class_carv(val series: String, val number: String, val issueDate: String) {
+class class_carv(val series: String, val number: String, val issueDate: String): Comparable<class_carv> {
     //Паспорт транспортного средства.
 
     fun write() {
@@ -23,6 +23,13 @@ class class_carv(val series: String, val number: String, val issueDate: String) 
                 (number == other.number) &&
                 (issueDate == other.issueDate)
     } else false
+
+    override fun compareTo(other: class_carv): Int {
+        return compareValuesBy(
+            this, other,
+            class_carv::series, class_carv::number, class_carv::issueDate
+        )
+    }
 
 
     override fun hashCode(): Int {
