@@ -37,6 +37,9 @@ class TaxiDriver(name: String, age: Int, hireYear: Int, licenseType: String, val
 }
 
 
+
+
+
 fun main() {
     val Taxi = TaxiDriver("Калыван", 11, 1, "C", "Как в последний раз")
     val Personal = PersonalDriver("Эчпочмак", 99, 45, "B", "Тимофей")
@@ -67,5 +70,27 @@ fun main() {
 
     // Получаем список объектов из класса-контейнера
     val drive: List<Driver> = deserializedContainer.drivers
+
+    // Задание 4
+    val results = mutableListOf<String>()
+
+    // Наиболее часто встречающаяся класс прав
+    val rights = drive.maxByOrNull { it.licenseType }
+    if (rights != null) {
+        val rights_class = "Категория водительских прав: ${rights.licenseType}, Имя водителя: ${rights.name}, Возраст: ${rights.age}"
+        results.add(rights_class)
+    } else {
+        results.add("Список пуст")
+    }
+
+    // Старший сотрудник
+    val old = drive.maxByOrNull { it.age }
+    if (old != null) {
+        val old_drive = "Возраст: ${old.age}, Имя водителя: ${old.name}, Категория водительских прав: ${old.licenseType}"
+        results.add(old_drive)
+    } else {
+        results.add("Список пуст")
+    }
+
 
 }
