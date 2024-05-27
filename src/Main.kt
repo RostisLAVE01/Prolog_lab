@@ -36,6 +36,7 @@ class TaxiDriver(name: String, age: Int, hireYear: Int, licenseType: String, val
     }
 }
 
+
 fun main() {
     val Taxi = TaxiDriver("Калыван", 11, 1, "C", "Как в последний раз")
     val Personal = PersonalDriver("Эчпочмак", 99, 45, "B", "Тимофей")
@@ -45,5 +46,26 @@ fun main() {
     val Personal1 = PersonalDriver("Иванова", 21, 3, "B", "Тимофей")
 
     val drivers: List<Driver> = listOf(Taxi, Personal, Truck, Truck1, Taxi1, Personal1)
+
+
+    // Задание 2
+    // Создаем объект класса-контейнера с указанным списком объектов
+    val container = DriverContainer(drivers)
+
+    // Сериализуем класс-контейнер в JSON
+    val gson = Gson()
+    val json = gson.toJson(container)
+
+    // Сохраняем JSON в файл
+    val filePath = "drivers.json"
+    File(filePath).writeText(json)
+
+    // Десериализация объектов из файла
+    val jsonContent = File(filePath).readText()
+    val type: Type = object : TypeToken<DriverContainer>(){}.type
+    val deserializedContainer: DriverContainer = gson.fromJson(jsonContent, type)
+
+    // Получаем список объектов из класса-контейнера
+    val drive: List<Driver> = deserializedContainer.drivers
 
 }
